@@ -2,25 +2,30 @@ namespace SpriteKind {
     export const obstacle = SpriteKind.create()
 }
 
-//  Tipo de sprite para obstáculos
-//  --- Funciones de juego ---
+// Variables globales
+//  -----------------------------
+//  Funciones
+//  -----------------------------
 function set_game() {
-    /** Inicializa el juego, el jugador y el fondo */
     
+    //  Inicializa el juego: crea el jugador, establece la gravedad,
+    //  el fondo, y mantiene al jugador dentro de la pantalla.
     textSprite2.setFlag(SpriteFlag.Invisible, true)
-    //  Oculta el texto del menú
-    bubble = sprites.create(assets.image`bubble`, SpriteKind.Player)
+    bubble = sprites.create(assets.image`
+        bubble
+        `, SpriteKind.Player)
     bubble.setPosition(40, 60)
     bubble.ay = 300
-    //  Gravedad
     bubble.setStayInScreen(true)
-    //  Evita salir de la pantalla
-    scene.setBackgroundImage(assets.image`game_fondo`)
+    scene.setBackgroundImage(assets.image`
+        game_fondo
+        `)
     scene.setBackgroundColor(9)
 }
 
 controller.up.onEvent(ControllerButtonEvent.Pressed, function on_up_pressed() {
-    /** Hace saltar al jugador y reproduce sonido */
+    //  Función que permite al jugador saltar al presionar la flecha arriba.
+    //  Se reproduce un efecto de sonido.
     if (game2) {
         bubble.vy = -100
         music.play(music.createSoundEffect(WaveShape.Sine, 308, 575, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
@@ -28,15 +33,15 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function on_up_pressed() {
     
 })
 function FadeToWhite(Time: number) {
-    /** Transición de fundido a blanco y vuelta */
+    //  Efecto de transición de pantalla blanca.
     color.startFade(color.originalPalette, color.White, Time / 2)
     color.pauseUntilFadeDone()
     color.startFade(color.White, color.originalPalette, Time / 2)
 }
 
 controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed() {
-    /** Inicia el juego desde el menú al pulsar A */
     
+    //  Inicia el juego desde el menú principal al pulsar A.
     if (start) {
         start = false
         menu = true
@@ -44,83 +49,62 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed() {
     }
     
 })
-function check_game_over() {
-    /** Comprueba si el jugador toca el suelo */
-    if (bubble.bottom >= scene.screenHeight()) {
-        game.over(false)
-    }
-    
-}
-
 sprites.onOverlap(SpriteKind.Player, SpriteKind.obstacle, function on_on_overlap(player2: Sprite, obstacle2: Sprite) {
-    /** Comprueba colisión con obstáculos y termina el juego */
+    //  Si toca algún obstáculo muere
     game.over(false)
 })
 function SpawnText(text: string, X: number, Y: number) {
-    /** Crea un textsprite en pantalla */
     
+    //  Crea un TextSprite con el texto indicado en la posición X, Y.
     textSprite = textsprite.create(text, 0, 1)
     textSprite.setPosition(X, Y)
     textSprite.setOutline(1, 10)
 }
 
-function Menu() {
-    /** Muestra el menú principal y arranca el juego */
+function setup_score() {
     
+    //  Inicializa la puntuación en pantalla.
+    score = 0
+    info.setScore(0)
+}
+
+function Menu() {
+    
+    //  Función del menú principal. Transición y inicio de juego.
     if (menu) {
         FadeToWhite(2000)
         game2 = true
         set_game()
+        setup_score()
     }
     
 }
 
-game.onUpdateInterval(1500, function on_update_interval() {
-    /** Genera tubos arriba y abajo con hueco aleatorio */
-    
-    gap = 20
-    //  espacio entre tubos
-    center = randint(20 + Math.idiv(gap, 2), 120 - Math.idiv(gap, 2))
-    //  Tubo superior
-    top_pipe = sprites.create(assets.image`pipe_top`, SpriteKind.obstacle)
-    top_pipe.setPosition(160, center - Math.idiv(gap, 2) - 30)
-    top_pipe.vx = -50
-    top_pipe.setFlag(SpriteFlag.AutoDestroy, true)
-    //  Tubo inferior
-    bottom_pipe = sprites.create(assets.image`pipe_bottom`, SpriteKind.obstacle)
-    bottom_pipe.setPosition(160, center + Math.idiv(gap, 2) + 30)
-    bottom_pipe.vx = -50
-    bottom_pipe.setFlag(SpriteFlag.AutoDestroy, true)
-})
-forever(function on_forever() {
-    /** Loop principal: comprueba constantemente si el jugador toca suelo */
-    check_game_over()
-})
-//  --- Variables globales ---
 let bottom_pipe : Sprite = null
 let top_pipe : Sprite = null
 let center = 0
-let gap = 0
+let score = 0
+let menu = false
+let game2 = false
 let bubble : Sprite = null
 let textSprite : TextSprite = null
 let textSprite2 : TextSprite = null
 let start = false
-let menu = false
-let game2 = false
-let obstacle22 = null
-game2 = false
-menu = false
 start = true
-//  --- Inicio del juego ---
+let gap = 20
+//  -----------------------------
+//  Pantalla de inicio
+//  -----------------------------
 FadeToWhite(2000)
-scene.setBackgroundImage(assets.image`start background`)
-//  Texto del título
+scene.setBackgroundImage(assets.image`
+    start background
+    `)
 textSprite2 = textsprite.create("Bubble", 0, 1)
 textSprite2.setPosition(100, 55)
 textSprite2.setOutline(1, 10)
-//  Reproduce música de inicio
-music.play(music.createSong(assets.song`start_song`), music.PlaybackMode.InBackground)
-//  Botón Start
+music.play(music.createSong(assets.song`
+        start_song
+        `), music.PlaybackMode.InBackground)
 SpawnText("Start (A)", 75, 95)
 while (start) {
     textSprite.setFlag(SpriteFlag.Invisible, false)
@@ -128,3 +112,40 @@ while (start) {
     textSprite.setFlag(SpriteFlag.Invisible, true)
     pause(1000)
 }
+//  -----------------------------
+//  Eventos
+//  -----------------------------
+game.onUpdateInterval(1500, function on_update_interval() {
+    
+    let list2 : Sprite[] = []
+    //  Genera obstáculos tipo Flappy Bird con un hueco al azar y los añade
+    //  a la lista de obstáculos.
+    center = randint(20 + Math.idiv(gap, 2), 120 - Math.idiv(gap, 2))
+    //  Tubo arriba
+    top_pipe = sprites.create(assets.image`
+        pipe_top
+        `, SpriteKind.obstacle)
+    top_pipe.setPosition(160, center - Math.idiv(gap, 2) - 30)
+    top_pipe.vx = -50
+    top_pipe.setFlag(SpriteFlag.AutoDestroy, true)
+    //  Tubo abajo
+    bottom_pipe = sprites.create(assets.image`
+            pipe_bottom
+            `, SpriteKind.obstacle)
+    bottom_pipe.setPosition(160, center + Math.idiv(gap, 2) + 30)
+    bottom_pipe.vx = -50
+    bottom_pipe.setFlag(SpriteFlag.AutoDestroy, true)
+    //  Añadimos a la lista
+    list2.push(top_pipe)
+    list2.push(bottom_pipe)
+    //  Incrementa puntuación
+    score += 1
+    info.setScore(score)
+})
+forever(function on_forever() {
+    //  Comprueba si el jugador toca el suelo para terminar el juego.
+    if (bubble.bottom > scene.screenHeight()) {
+        game.over(false)
+    }
+    
+})
