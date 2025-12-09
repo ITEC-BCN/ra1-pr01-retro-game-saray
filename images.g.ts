@@ -3,18 +3,6 @@ namespace myImages {
 
     helpers._registerFactory("image", function(name: string) {
         switch(helpers.stringTrim(name)) {
-            case "image1":
-            case "bubble":return img`
-. . . . . . . . . . . . 
-. . . . . c b b c c . . 
-. . . c b b b 1 1 c . . 
-. . c b 2 2 b b 1 1 c . 
-. . b b e f b b b b b . 
-. c b b b b b b c c c . 
-. b b b b b b c c c c . 
-. c b b b b b b b b b . 
-c c b b b b b b b c c . 
-`;
             case "image5":
             case "game_fondo":return img`
 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -366,6 +354,19 @@ dbbbbbbbbbbccccc
 ....bccccccc....
 ....bccccccc....
 ....bccccccc....
+`;
+            case "image1":
+            case "bubble":return img`
+. . . . . . c c . . . . 
+. . . . . c b b c c . . 
+. . . c b b b 1 1 c . . 
+. . c b 2 2 b b 1 1 c . 
+. . b b e f b b b b b . 
+. c b b b b b b c c c . 
+. b b b b b b c c c c . 
+. c b b b b b b b b b . 
+c c c b b b b b b c c . 
+. . . c c c c c c . . . 
 `;
         }
         return null;

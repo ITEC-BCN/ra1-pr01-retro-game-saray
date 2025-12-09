@@ -1,5 +1,5 @@
 {
-    "name": "Demo",
+    "name": "Flappy Bubble",
     "description": "",
     "dependencies": {
         "device": "*",
@@ -29,5 +29,5 @@
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "pyprj"
+    "preferredEditor": "blocksprj"
 }
