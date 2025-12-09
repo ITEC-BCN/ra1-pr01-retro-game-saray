@@ -37,5 +37,8 @@ Si Bubble cae al suelo o toca algún obstáculo, el juego termina.
 Puedes ver un speed-run de Flappy Bubble mostrando cómo Bubble evita los obstáculos y aumenta su puntuación:
 
 ![Demo Flappy Bubble](assets/videos/Gameplay_Flappy_Bubble.mp4)
+[Ver video en Google Drive](https://drive.google.com/file/d/12qtubbPKmWwZH7eTVj03_04fbqCOkjvf/view?usp=sharing&t=12)
+
+
 
 
